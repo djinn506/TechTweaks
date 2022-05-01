@@ -48,9 +48,9 @@ Edit Boot Options for SSDs:
 ```
 sudo gedit /etc/fstab/
 ```
-add "nodiratime" and "noatime" before "errors=remount-ro"
+add "nodiratime" and "noatime" before "errors=remount-ro" // also "discard"
 ex: "noatime,nodiratime,errors=remount-ro" //skips writting too many timestamps on files.  // This works atm
-	
+
 Other(NOT working for me):
 https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards/
 
