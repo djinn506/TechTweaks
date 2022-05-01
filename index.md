@@ -2,6 +2,10 @@
 POP OS Current Memory use: under 760M
 Edit: now memory is around 1G, but that's due to the changes to gnome that's still the lowest I can get it.
 
+Disclaimer: 
+	Make a backup of your files before attempting something. Some linux knowledge is required to use this, all code snippets are meant to be typed into the terminal, links are not hyperlinked since it's just there in case you need more info. Reach out if you found this useful or you want anything to be included here as well. Have fun!
+	---
+
 Disable Animations using gnome-tweaks
 
 Set Font Antialiasing to "Standard (grayscale)" // cheaper imo
@@ -109,15 +113,15 @@ alias popclean='sudo apt-get autoremove && sudo apt-get autoclean'
 ```
 
 ```
-alias mountMassive='sudo mkdir -p /media/j/Massive && sudo mount /dev/sdc2 /media/j/Massive;'
+alias mount<DRIVENAME>='sudo mkdir -p /media/~/<DRIVENAME> && sudo mount /dev/sdc2 /media/~/<DRIVENAME>;'
 ```
 
 ```
-alias umountMassive='sudo umount /media/j/Massive/ && sudo rm -d /media/j/Massive'
+alias umount<DRIVENAME>='sudo umount /media/~/<DRIVENAME>/ && sudo rm -d /media/~/<DRIVENAME>'
 ```
 
 ```
-alias blendersync='rsync -arvP ~/Documents/blender/ /media/j/Massive/blender/'
+alias blendersync='rsync -arvP ~/Documents/blender/ /media/~/<DRIVENAME>/blender/'
 ```
 
 ```
@@ -289,7 +293,7 @@ gedit /etc/hosts
 0.0.0.0 link.wacom.com
 ```
 
-* FIX BROKEN PACKAGES on Ubuntu Distros
+FIX BROKEN PACKAGES on Ubuntu Distros
 
 ```
 apt-get remove apt-utils
