@@ -137,7 +137,7 @@ sources ~/.bashrc
 ```	
 . ~/.bashrc // updates bash sources
 ``` 
-* Disable PopShop // takes some resources
+Disable PopShop // takes some resources
 	Startup Applications > Disable Pop Shop (Pop!_OS Release Check) // S76 priority balance relies on PopShop as far as I know in order to work properly
 
 Disable Touchegg:  // used for fingertouch and gestures
