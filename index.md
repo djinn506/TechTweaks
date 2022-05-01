@@ -10,13 +10,13 @@ Disable Animations using gnome-tweaks
 
 Set Font Antialiasing to "Standard (grayscale)" // cheaper imo
 
-Install Preloader adaptive readahead daemon
+Install Preloader Adaptive Readahead Daemon
 	Monitors commonly used programs and preloads them in memory to speed up openning apps
 	https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html
 ```	
 preload -n 0
 ```
-// this code sets preload niceness at normal
+// this code sets preload niceness at normal, this helps not hanging your cpu priority
 	
 Uninstall unneeded fonts (?) optional fonts, make sure to edit to your liking before removing.
 ```	
