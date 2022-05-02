@@ -365,6 +365,7 @@ sudo systemctl status tmp.mount
 psd - Sets browser profiles to run on ram instead
 
 Profile Sync Daemon, also needs to Enable OverlayFS.
+https://github.com/graysky2/profile-sync-daemon
 
 ```
 sudo apt-get install profile-sync-daemon
