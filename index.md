@@ -246,6 +246,12 @@ sudo ufw default deny outgoing
 ifconfig -a
 ```
 
+Hosts Hardening
+https://github.com/StevenBlack/hosts
+
+Firefox Hardening
+https://github.com/arkenfox/user.js
+
 Useful Linux Commands
 
 ```
