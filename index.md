@@ -8,7 +8,10 @@ Pop! OS Current Memory use: under 760M // Edit: now memory is around 1G(that inc
 
 System and apps boot quickly, system is very responsive even with gnome, apps are running on ram instead of the drive, firefox also which can be a little tricky. Cpu load is very low, but admitedly I am using a lot more ram than necesary just for everything to be as fast as it gets, you don't have to use tmps and psd daemon if that's not to your liking.
 
+Kernels: I'm using the regularly updated Pop! OS linux kernel, they update it sooner than ubuntu. Had good experiences in the past using liquorix kernels too, but I don't seem to need it with this current configuration.
+
 Future endeavors: make a script to set all these settings automatically, test all of this on Arch/Manjaro hardware using xfce for the lowest ram footprint.
+
 	---
 
 Disable Animations using gnome-tweaks
