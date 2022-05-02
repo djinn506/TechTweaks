@@ -11,7 +11,7 @@ Kernels: I'm using the regularly updated Pop! OS linux kernel, they update it so
 
 Future endeavors: make a script to set all these settings automatically, test all of this on Arch/Manjaro hardware using xfce for the lowest ram footprint.
 
- START HERE
+**START HERE**
 
 Disable Animations using gnome-tweaks
 
