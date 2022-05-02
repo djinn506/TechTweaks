@@ -2,17 +2,12 @@
 
 Disclaimer: 
 	Make a backup of your files before attempting anything. This is inteded for desktop use, not server. Some linux knowledge is required to use this, all code snippets are meant to be typed into the terminal, links are not hyperlinked since it's just there in case you need more info. Reach out if you found this useful or you want anything to be included here as well. Have fun!
-	
-
 Pop! OS Current Memory use: under 760M // Edit: now memory is around 1G(that includes Preloader's cache), but that's likely due to the changes to gnome extensions that's still the lowest I can get it til I use the lateset version of Pop! OS.
-
 System and apps boot quickly, system is very responsive even with gnome, apps are running on ram instead of the drive, firefox also which can be a little tricky. Cpu load is very low, but admitedly I am using a lot more ram than necesary just for everything to be as fast as it gets, you don't have to use tmps and psd daemon if that's not to your liking.
-
 Kernels: I'm using the regularly updated Pop! OS linux kernel, they update it sooner than ubuntu. Had good experiences in the past using liquorix kernels too, but I don't seem to need it with this current configuration.
-
 Future endeavors: make a script to set all these settings automatically, test all of this on Arch/Manjaro hardware using xfce for the lowest ram footprint.
 
-		- START HERE -
+- START HERE -
 
 Disable Animations using gnome-tweaks
 
