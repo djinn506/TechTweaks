@@ -77,8 +77,25 @@ sudo systemctl enable fstrim.timer
 sudo systemctl start fstrim.service
 sudo systemctl start fstrim.timer
 ```
+Disable Mitigations
+from "Speedup Linux" - https://christitus.com/speedup-linux/
+..."
+Linux by default is meant for servers and actually decreases the performance for greater security. While this great in business, when using Linux as a desktop it is not ideal unless your are serving other devices on your network with that machine.
 
-Purge Libreoffice
+Disable Mitigations
+
+This will have a substantial increase in performance just by doing disable many mitigations that happen in multi-threaded systems. The more core count you have the greater the performance gain. Some performances increases can be as large as 30%, but the average increase is about 10%.
+
+Add this to your /etc/default/grub under line GRUB_CMDLINE_LINUX="rhgb quiet":
+
+```
+GRUB_CMDLINE_LINUX="rhgb quiet mitigations=off"
+```
+
+GrubCustomizer kernel parameters: quiet splash mitigations=off
+"...
+
+Purge Libreoffice (unless you use it)
 
 ```
 sudo apt-get remove --purge libreoffice*
