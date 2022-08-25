@@ -1,3 +1,5 @@
+a few nifty commands, markdown *coming soon (tm)*
+
 Log your internet download speed
 $ echo $(date +%s) > start-time; URL=http://www.google.com;  while true; do  echo $(curl -L --w %{speed_download} -o/dev/null -s $URL) >> bps;  sleep 10; done &
 
