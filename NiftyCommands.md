@@ -1,200 +1,330 @@
 a few nifty commands, markdown *coming soon (tm)*
 
 Log your internet download speed
-$ echo $(date +%s) > start-time; URL=http://www.google.com;  while true; do  echo $(curl -L --w %{speed_download} -o/dev/null -s $URL) >> bps;  sleep 10; done &
+```
+echo $(date +%s) > start-time; URL=http://www.google.com;  while true; do  echo $(curl -L --w %{speed_download} -o/dev/null -s $URL) >> bps;  sleep 10; done &
+```
 
 Smart renaming
-$ mmv 'banana_*_*.asc' 'banana_#2_#1.asc'
+```
+mmv 'banana_*_*.asc' 'banana_#2_#1.asc'
+```
 
 Monitor a file's size
-$ watch -n60  du /var/log/messages
+```
+watch -n60  du /var/log/messages
+```
 
 Remove everything except that file
-$ find . ! -name <FILENAME> -delete
+```
+find . ! -name <FILENAME> -delete
+```
 
 Using mplayer to play the audio only but suppress the video
-$ mplayer -novideo something.mpg
+```
+mplayer -novideo something.mpg
+```
 
 Setting global redirection of STDERR to STDOUT in a script
-$ exec 2>&1
+```
+exec 2>&1
+```
 
 Check disk for bad sectors
-$ badblocks -n -s -b  2048 /dev/sdX
+```
+badblocks -n -s -b  2048 /dev/sdX
+```
 
 Use wget to download one page and all it's requisites for offline viewing
-$ wget -e robots=off -E -H -k -K -p http://<page>
+```
+wget -e robots=off -E -H -k -K -p http://<page>
+```
 
 Load file into RAM (cache) for faster accessing for repeated usage
-$ cat <file> > /dev/null
+```
+cat <file> > /dev/null
+```
 
 Find biggest 10 files in current and subdirectories and sort by file size
-$ find . -type f -print0 |  xargs -0  du -h |  sort -hr |  head -10
+```
+find . -type f -print0 |  xargs -0  du -h |  sort -hr |  head -10
+```
 
 All what exists in dir B and not in dir A will be copied from dir B to new or existing dir C
-$ rsync -v -r --size-only --compare-dest=../A/ B/ C/
+```
+rsync -v -r --size-only --compare-dest=../A/ B/ C/
+```
 
 Show running services (using systemctl)
-$ command  systemctl --no-page --no-legend --plain -t  service --state=running
+```
+command  systemctl --no-page --no-legend --plain -t  service --state=running
+```
 
 renames multiple files that match the pattern
-$ rename 's/foo/bar/g' *
+```
+rename 's/foo/bar/g' *
+```
 
-To get you started!
-$ vimtutor
+To get you started in vim!
+```
+vimtutor
+```
 
 Rotate a set of photos matching their EXIF data.
-$ jhead -autorot *.jpg
+```
+jhead -autorot *.jpg
+```
 
 Clean swap area after using a memory hogging application
-$ swapoff -a ;  swapon -a
+```
+swapoff -a ;  swapon -a
+```
 
 Get the total length of time in hours:minutes:seconds (HH:MM:SS) of all video (or audio) in the current dir (and below)
-$ find -type f -name "*.avi" -print0 |  xargs -0   mplayer -vo dummy -ao dummy -identify 2>/dev/null |  perl -nle '/ID_LENGTH=([0-9\.]+)/ && ($t +=$1) &&  printf "%02d:%02d:%02d
+```
+find -type f -name "*.avi" -print0 |  xargs -0   mplayer -vo dummy -ao dummy -identify 2>/dev/null |  perl -nle '/ID_LENGTH=([0-9\.]+)/ && ($t +=$1) &&  printf "%02d:%02d:%02d
 ",$t/3600,$t/60%60,$t%60' |  tail -n 1
+```
 
 Use colordiff in side-by-side mode, and with automatic column widths.
-$ colordiff -yW"`tput cols`" /path/to/file1 /path/to/file2
+```
+colordiff -yW"`tput cols`" /path/to/file1 /path/to/file2
+```
 
 Recursively search for large files. Show size and location.
-$ find . -size +100000k -exec  du -h {} \;
+```
+find . -size +100000k -exec  du -h {} \;
+```
 
 Rename all files which contain the sub-string 'foo', replacing it with 'bar'
-$ for i in ./*foo*;do  mv -- "$i" "${i//foo/bar}";done
+```
+for i in ./*foo*;do  mv -- "$i" "${i//foo/bar}";done
+```
 
 Compare directories via diff
-$ diff -rq dirA dirB
+```
+diff -rq dirA dirB
+```
 
 copy with progress bar - rsync
-$ rsync -rv <src> <dst> --progress
-
+```
+rsync -rv <src> <dst> --progress
+```
 
 sort the contents of a text file in place.
-$ sort -g -o list.txt{,}
+```
+sort -g -o list.txt{,}
+```
 
 Show bandwidth use oneliner
-$ while true; do  cat /proc/net/dev;  sleep 1; done |  awk -v dc="date \"+%T\"" '/eth0/{i = $2 - oi; o = $10 - oo; oi = $2; oo = $10; dc | getline d; close(dc);  if (a++)  printf "%s %8.2f KiB/s in %8.2f KiB/s out", d, i/1024, o/1024}'
-
+```
+while true; do  cat /proc/net/dev;  sleep 1; done |  awk -v dc="date \"+%T\"" '/eth0/{i = $2 - oi; o = $10 - oo; oi = $2; oo = $10; dc | getline d; close(dc);  if (a++)  printf "%s %8.2f KiB/s in %8.2f KiB/s out", d, i/1024, o/1024}'
+```
 
 Find all files larger than 500M and less than 1GB
-$ find / -type f -size +500M -size -1G
+```
+find / -type f -size +500M -size -1G
+```
 
 Quickly get summary of sizes for files and folders
-$ du -sh *
+```
+du -sh *
+```
 
 Host cpu performance
-$ openssl speed md5
+```
+openssl speed md5
+```
 
 Find recursively, from current directory down, files and directories whose names contain single or multiple whitespaces and replace each such occurrence with a single underscore.
-$ find  ./  -name '*'  -exec   rename  's/\s+/_/g'  {}  \;
+```
+find  ./  -name '*'  -exec   rename  's/\s+/_/g'  {}  \;
+```
 
 Shows size of dirs and files, hidden or not, sorted.
-$ du -cs * .[^\.]* |  sort -n
+```
+du -cs * .[^\.]* |  sort -n
+```
 
 Create a bunch of dummy files for testing
-$ touch {1..10}.txt
+```
+touch {1..10}.txt
+```
 
-find the process that is using a certain port e.g. port 3000
-$ lsof -P |  grep ':3000'
+Find the process that is using a certain port e.g. port 3000
+```
+lsof -P |  grep ':3000'
+```
 
 Convert camelCase to underscores (camel_case)
-$ sed -r 's/([a-z]+)([A-Z][a-z]+)/\1_\l\2/g' file.txt
+```
+sed -r 's/([a-z]+)([A-Z][a-z]+)/\1_\l\2/g' file.txt
+```
 
 Search for a single file and go to it
-$ cd $(dirname $(find ~ -name emails.txt))
+```
+cd $(dirname $(find ~ -name emails.txt))
+```
 
 Plays Music from SomaFM
-$ read -p "Which station? ";  mplayer --reallyquiet -vo none -ao sdl http://somafm.com/startstream=${REPLY}.pls
+```
+read -p "Which station? ";  mplayer --reallyquiet -vo none -ao sdl http://somafm.com/startstream=${REPLY}.pls
+```
 
 Cleanup firefox's database.
-$ pgrep -u `id -u` firefox-bin ||  find ~/.mozilla/firefox -name '*.sqlite'|(while  read -e f; do  echo 'vacuum;'|sqlite3 "$f" ; done)
+```
+pgrep -u `id -u` firefox-bin ||  find ~/.mozilla/firefox -name '*.sqlite'|(while  read -e f; do  echo 'vacuum;'|sqlite3 "$f" ; done)
+```
 
 Parallel file downloading with wget
-$ wget -nv http://en.wikipedia.org/wiki/Linux -O- |  egrep -o "http://[^[:space:]]*.jpg" |  xargs -P 10 -r -n 1  wget -nv
+```
+wget -nv http://en.wikipedia.org/wiki/Linux -O- |  egrep -o "http://[^[:space:]]*.jpg" |  xargs -P 10 -r -n 1  wget -nv
+```
 
 Record microphone input and output to date stamped mp3 file
-$ arecord -q -f  cd -r 44100 -c2 -t  raw | lame -S -x -h -b 128 - `date +%Y%m%d%H%M`.mp3
+```
+arecord -q -f  cd -r 44100 -c2 -t  raw | lame -S -x -h -b 128 - `date +%Y%m%d%H%M`.mp3
+```
 
 Empty a file
+```
 $ :>  file
+```
 
 Kill all Zombie processes (Guaranteed!)
-$ kill -9 `ps -xaw -o state -o ppid |  grep Z |  grep -v PID |  awk '{print $2}'`
+```
+kill -9 `ps -xaw -o state -o ppid |  grep Z |  grep -v PID |  awk '{print $2}'`
+```
 
-list all file extensions in a directory
-$ find . -type f |  awk -F'.' '{print $NF}' |  sort|  uniq -c |  sort -g
+List all file extensions in a directory
+```
+find . -type f |  awk -F'.' '{print $NF}' |  sort|  uniq -c |  sort -g
 
+```
 
 ssh to machine behind shared NAT
-$ ssh -NR 0.0.0.0:2222:127.0.0.1:22 user@jump.host.com
+```
+ssh -NR 0.0.0.0:2222:127.0.0.1:22 user@jump.host.com
+```
 
-all out
-$ pkill -KILL -u username
+all out!!
+```
+pkill -KILL -u username
+```
+
 Run a ext4 file system check and badblocks scan with progress info
-$ fsck.ext4 -cDfty -C 0 /dev/sdxx
+```
+fsck.ext4 -cDfty -C 0 /dev/sdxx
+```
 
 Generate a random password 30 characters long
-$ gpg --gen-random --armor 1 30
+```
+gpg --gen-random --armor 1 30
+```
 
 Execute a command, convert output to .png file, upload file to imgur.com, then returning the address of the .png.
-$ imgur(){ $*|convert label:@- png:-|curl -F "image=@-" -F "key=1913b4ac473c692372d108209958fd15" http://api.imgur.com/2/upload.xml| grep -Eo "<original>(.)*</original>" |  grep -Eo "http://i.imgur.com/[^<]*";}
-
+```
+imgur(){ $*|convert label:@- png:-|curl -F "image=@-" -F "key=1913b4ac473c692372d108209958fd15" http://api.imgur.com/2/upload.xml| grep -Eo "<original>(.)*</original>" |  grep -Eo "http://i.imgur.com/[^<]*";}
+```
 
 Find Malware in the current and sub directories by MD5 hashes
-$ IFS=$'
+```IFS=$'
 ' &&  for f in `find . -type f -exec  md5sum "{}" \;`; do  echo $f |  sed -r 's/^[^ ]+/Checking:/';  echo $f |  cut -f1 -d' ' |  netcat hash.cymru.com 43 ; done
+```
 
 Update all packages installed via homebrew
-$ brew update &&  brew upgrade ` brew outdated`
+```
+brew update &&  brew upgrade ` brew outdated`
+```
 
 Recursively find top 20 largest files (> 1MB) sort human readable format
-$ find . -type f -print0 |  xargs -0  du -h |  sort -hr |  head -20
+```
+find . -type f -print0 |  xargs -0  du -h |  sort -hr |  head -20
+```
 
 Block an IP address from connecting to a server
-$ iptables -A INPUT -s 222.35.138.25/32 -j DROP
+```
+iptables -A INPUT -s 222.35.138.25/32 -j DROP
+```
 
 pattern match in awk - no grep
-$ awk '/pattern1/ && /pattern2/ && !/pattern3/ {print}'
+```
+awk '/pattern1/ && /pattern2/ && !/pattern3/ {print}'
+```
 
 Files extension change
-$ rename .oldextension .newextension *.oldextension
-
+```
+rename .oldextension .newextension *.oldextension
+```
 
 List and delete files older than one year
-$ find <directory path> -mtime +365 -and -not -type d -delete
+```
+find <directory path> -mtime +365 -and -not -type d -delete
 for all flv files in a dir, grab the first frame and make a jpg.
 $ for f in *.flv; do  ffmpeg -y -i "$f" -f image2 -ss 10 -vframes 1 -an "${f%.flv}.jpg"; done
+```
 
 Find running binary executables that were not installed using dpkg
-$ cat /var/lib/dpkg/info/*.list > /tmp/listin ;  ls /proc/*/exe |xargs -l  readlink |  grep -xvFf /tmp/listin;  rm /tmp/listin
+```
+cat /var/lib/dpkg/info/*.list > /tmp/listin ;  ls /proc/*/exe |xargs -l  readlink |  grep -xvFf /tmp/listin;  rm /tmp/listin
+```
+
 Add prefix onto filenames
-$ rename 's/^/prefix/' *
+```
+rename 's/^/prefix/' *
+```
 
 Kill processes that have been running for more than a week
-$ find /proc -user myuser -maxdepth 1 -type d -mtime +7 -exec  basename {} \; |  xargs  kill -9
+```
+find /proc -user myuser -maxdepth 1 -type d -mtime +7 -exec  basename {} \; |  xargs  kill -9
+```
 
 Copy a folder tree through ssh using compression (no temporary files)
-$ ssh <host> ' tar -cz /<folder>/<subfolder>' |  tar -xvz
+```
+ssh <host> ' tar -cz /<folder>/<subfolder>' |  tar -xvz
+```
 
 Insert the last argument of the previous command
-$ <ALT> .
-Countdown Clock
-$ MIN=1 &&  for i in $(seq $(($MIN*60)) -1 1); do  echo -n "$i, ";  sleep 1; done;  echo -e "
+```
+<ALT> .
+```
 
-BOOOM! Time to start."
+Countdown Clock
+```
+MIN=1 &&  for i in $(seq $(($MIN*60)) -1 1); do  echo -n "$i, ";  sleep 1; done;  echo -e "BOOOM! Time to start."
+```
 
 Continue a current job in the background
-$ <ctrl+z>  bg
+```
+<ctrl+z>  bg
+```
+
 Ask user to confirm
-$ Confirm() {  read -sn 1 -p "$1 [Y/N]? "; [[ $REPLY = [Yy] ]]; }
+```
+Confirm() {  read -sn 1 -p "$1 [Y/N]? "; [[ $REPLY = [Yy] ]]; }
+```
 Run a command when a file is changed
-$ while  inotifywait -e modify /tmp/myfile; do firefox; done
+```
+while  inotifywait -e modify /tmp/myfile; do firefox; done
+```
+
 Watch several log files of different machines in a single multitail window on your own machine
-$ multitail -l 'ssh machine1 "tail -f /var/log/apache2/error.log"' -l 'ssh machine2 "tail -f /var/log/apache2/error.log"'
+```
+multitail -l 'ssh machine1 "tail -f /var/log/apache2/error.log"' -l 'ssh machine2 "tail -f /var/log/apache2/error.log"'
+```
+
 The fastest remote directory rsync over ssh archival I can muster (40MB/s over 1gb NICs)
-$ rsync -aHAXxv --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x" user@<source>:<source_dir> <dest_dir>
+```
+rsync -aHAXxv --numeric-ids --delete --progress -e "ssh -T -c arcfour -o Compression=no -x" user@<source>:<source_dir> <dest_dir>
+```
+
 True Random Dice Roll
-$ tr -cd '1-6' < /dev/urandom |  head -c 1;  echo
+```
+tr -cd '1-6' < /dev/urandom |  head -c 1;  echo
+```
+
 Using a single sudo to run multiple && arguments
+
 $ sudo -s <<< ' apt update -y &&  apt upgrade -y'
 
 Find broken symlinks
