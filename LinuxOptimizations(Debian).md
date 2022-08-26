@@ -116,7 +116,7 @@ xsetwacom set `xsetwacom --list | awk '/TOUCH/ {print $8}'` touch off
 Kill gracefully touchegg service on startup (touch only, doesn't affect wacom stylus)
 
 ```bash
-pkill -15 touchegg // doesn't work ? maybe pipe it into kill -15
+pkill -15 touchegg
 ```
 
 ```bash
@@ -172,14 +172,14 @@ Disable PopShop // takes some resources
 Startup Applications > Disable Pop Shop (Pop!_OS Release Check) // S76 priority balance relies on PopShop as far as I know in order to work properly
 
 ```bash
-pkill -15 io.element // doesn't work ? maybe pipe it into kill -15
+pkill -15 io.element
 ```
 
 Disable Touchegg:  // used for fingertouch and gestures
 
 ```bash
-/etc/xdg/autostart/touchegg.desktop
-// then rename to touchegg.desktop.hold
+cd /etc/xdg/autostart/
+mv touchegg.desktop touchegg.desktop.hold
 ```
 
 Security
@@ -193,12 +193,12 @@ Wired Settings:
     Set IPV6 to Automatic DHCP ONLY and set DNS
 
 ```bash
-//Cloudflare DNS
+Cloudflare DNS
 IPv4
 1.1.1.1,1.0.0.1
 IPv6
 2606:4700:4700::1111,2606:4700:4700::1001
-// Google DNS
+Google DNS
 IPV4
 8.8.8.8,8.8.4.4
 IPV6
@@ -224,11 +224,11 @@ sudo systemctl enable apparmor.service
 sudo systemctl start apparmor.service
 ```
 
-<https://ubuntu.com/server/docs/security-apparmor/>
+<https://ubuntu.com/server/docs/security-apparmor>
 
 Firewall - Hardening
 
-<https://askubuntu.com/questions/339507/how-can-i-use-firefox-with-ubuntu-firewall-gufw/>
+<https://askubuntu.com/questions/339507/how-can-i-use-firefox-with-ubuntu-firewall-gufw>
 
 port 80 for HTTP protocol
 port 443 for HTTPS protocol
@@ -302,11 +302,11 @@ netstat -tulpn // network connections
 ps aux | grep **service name** // processes running
 top // same
 
-ls /mnt // whats on /mnt folder
-mount /dev/sda2 /mnt // mounting volumes
-mount // check mounted volumes
+ls /mnt // lists whats on /mnt folder
+mount /dev/sda2 /mnt // mounts volumes
+mount // lists mounted volumes
 
-pwd // print working directory // filepath
+pwd // print working directory // path
 
 dpkg --list // lists all installed packages
 
@@ -349,7 +349,7 @@ sudo apt-get -f remove
 
 ```bash
 sudo apt-get install aptitude
-sudo aptitude install <package-name>
+sudo aptitude install **package-name**
 ```
 
 ```bash
@@ -363,7 +363,7 @@ sudo apt --fix-broken install
 sudo apt-get update && sudo apt-get upgrade
 sudo dpkg --configure -a
 sudo apt-get install -f
-sudo apt-get install <package-name>
+sudo apt-get install **package-name**
 ```
 
 Enable zram and zswap // Not really needed
@@ -381,7 +381,7 @@ nano /etc/default/grub
 ```
 
 <https://www.youtube.com/watch?v=XAJoszyzXPs>
-<https://www.addictivetips.com/ubuntu-linux-tips/enable-zswap-on-linux/>
+<https://www.addictivetips.com/ubuntu-linux-tips/enable-zswap-on-linux>
 <https://ubuntu-mate.community/t/enable-zswap-to-increase-performance/11302>
 
 Enable TMPFS // writes tmp directly to RAM memory instead of disk
@@ -389,7 +389,7 @@ Enable TMPFS // writes tmp directly to RAM memory instead of disk
 ```bash
 sudo cp -v /usr/share/systemd/tmp.mount /etc/systemd/system/ 
 sudo systemctl enable tmp.mount
-<restart machine>
+**restart machine**
 sudo systemctl status tmp.mount
 ```
 
@@ -398,16 +398,16 @@ psd - Sets browser profiles to run on ram instead
 Profile Sync Daemon, also needs to Enable OverlayFS.
 
 ```bash
-sudo apt-get install profile-sync-daemon
-sudo systemctl enable profile-sync-daemon
-sudo systemctl start profile-sync-daemon
+sudo apt-get install psd
+sudo systemctl enable psd
+sudo systemctl start psd
 ```
 
 PulseAudio
 
 ```bash
 alsamixer // front mic boost
-sudo alsactl store // stores alsamixer configuration? \
+sudo alsactl store // stores alsamixer configuration?
 ```
 
 youtube-dl
@@ -428,7 +428,7 @@ ffplay <mp3_file>
 ```
 
 Terminal Autocomplete // not needed anymore, this is by default on POP
-    <https://unix.stackexchange.com/questions/55203/bash-autocomplete-first-list-files-then-cycle-through-them/55632#55632>
+    <https://unix.stackexchange.com/questions/55203/bash-autocomplete-first-list-files-then-cycle-through-them/55632>
 
 ```bash
 bind "TAB:complete"; bind "set show-all-if-ambiguous on"
@@ -473,15 +473,17 @@ dwebp file.webp -o file.png
 find ./ -name "*.webp" -exec dwebp {} -o {}.png \;
 ```
 
+Converts webp to png
+
 ```bash
-ffmpeg -i file.webp out.png ## converts webp to png
+ffmpeg -i file.webp out.png
 ```
+
+Converts ANY webp to jpg
 
 ```bash
 for x in ls *.webp; do  ffmpeg -i $x ${x%.webp}.jpg;
 ```
-
-// converts ANY webp to jpg
 
 Services Enabled on Stacer:
     accounts-daemon
@@ -544,9 +546,8 @@ Disable services that cannot be disabled by stacer: //must be done with systemct
 Disable Touchegg:
 
 ```bash
-/etc/xdg/autostart/touchegg.desktop
-<rename to "touchegg.desktop.hold">
-ex: mv touchegg.desktop touchegg.desktop.hold
+cd /etc/xdg/autostart/
+mv touchegg.desktop touchegg.desktop.hold
 ```
 
 Disable Bluetooth:
@@ -557,10 +558,10 @@ set AutoEnable=false
 systemctl disable bluetooth
 ```
 
-Disable Braille Device Support
+Disable Braille Device Support  // make sure you don't use it
 
 ```bash
-sytemctl disable brltty // make sure you don't use it
+sytemctl disable brltty
 ```
 
 Disable OpenVPN
@@ -569,7 +570,7 @@ Disable OpenVPN
 systemctl disable openvpn
 ```
 
-Remove Evolution ? // this removes default mail client
+Remove Evolution ? // this removes default mail client (it's also used for system notifications)
 
 ```bash
 sudo apt-get remove evolution
