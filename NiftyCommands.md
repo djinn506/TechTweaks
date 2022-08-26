@@ -758,7 +758,7 @@ Search for a <pattern> string inside all files in the current directory
 grep -RnisI <pattern> *
 ```
 
-Get the 10 biggest files/folders for the current direcotry
+Get the 10 biggest files/folders for the current directory
 ```
 du -s * |  sort -n |  tail
 ```
@@ -776,6 +776,6 @@ strings /dev/urandom |  grep -o '[[:alnum:]]' |  head -n 30 |  tr -d '
 
 Stream youtube audio
 ```
-$ i="8uyxVmdaJ-w";mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" |  echo -e $(sed 's/%/\\x/g;s/.*\(v[0-9]\.lscache.*\)/http:\/\/\1/g') |  grep -oP '^[^|,]*')
+i="8uyxVmdaJ-w";mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" |  echo -e $(sed 's/%/\\x/g;s/.*\(v[0-9]\.lscache.*\)/http:\/\/\1/g') |  grep -oP '^[^|,]*')
 ```
 
