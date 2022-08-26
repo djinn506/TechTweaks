@@ -10,7 +10,7 @@ Set Font Antialiasing to "Standard (grayscale)" // cheaper imo
 
 Install Preloader adaptive readahead daemon
     Monitors commonly used programs and preloads them in memory to speed up openning apps
-    https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html
+    <https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html/>
 
 ```bash
 preload -n 0
@@ -57,7 +57,7 @@ add "nodiratime" and "noatime" before "errors=remount-ro"
 ex: "noatime,nodiratime,errors=remount-ro" //skips writting too many timestamps on files.  // This works atm
 
 Other(NOT working for me):
-https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards/
+<https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards//>
 
 ```bash
 sudo gedit /etc/fstab
