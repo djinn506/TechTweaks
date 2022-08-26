@@ -10,7 +10,7 @@ Set Font Antialiasing to "Standard (grayscale)" // cheaper imo
 
 Install Preloader adaptive readahead daemon
     Monitors commonly used programs and preloads them in memory to speed up openning apps
-    <https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html/>
+    <https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html>
 
 ```bash
 preload -n 0
@@ -57,14 +57,14 @@ add "nodiratime" and "noatime" before "errors=remount-ro"
 ex: "noatime,nodiratime,errors=remount-ro" //skips writting too many timestamps on files.  // This works atm
 
 Other(NOT working for me):
-<https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards//>
+<https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards/>
 
 ```bash
 sudo gedit /etc/fstab
 ssd,compress 0 0
 ```
 
-<https://wiki.debian.org/SSDOptimization#Low-Latency_IO-Scheduler/>
+<https://wiki.debian.org/SSDOptimization#Low-Latency_IO-Scheduler>
 
 Enable trim on SSDs
 
@@ -76,7 +76,7 @@ sudo systemctl start fstrim.service
 sudo systemctl start fstrim.timer
 ```
 
-Disable Mitigations. From "Speedup Linux" - <https://christitus.com/speedup-linux//>
+Disable Mitigations. From "Speedup Linux" - <https://christitus.com/speedup-linux/>
 
 ..."Linux by default is meant for servers and actually decreases the performance for greater security. While this great in business, when using Linux as a desktop it is not ideal unless your are serving other devices on your network with that machine.
 
@@ -265,9 +265,9 @@ sudo ufw allow out to 65.52.0.0/14 port 587 proto tcp
 
 Firewall Adv
 
-<https://www.youtube.com/watch?v=ZhMw53Ud2tY/>
-<https://www.youtube.com/watch?v=2IosbILbMWQ/>
-<https://null-byte.wonderhowto.com/how-to/locking-down-linux-using-ubuntu-as-your-primary-os-part-2-network-attack-defense-0185709//>
+<https://www.youtube.com/watch?v=ZhMw53Ud2tY>
+<https://www.youtube.com/watch?v=2IosbILbMWQ>
+<https://null-byte.wonderhowto.com/how-to/locking-down-linux-using-ubuntu-as-your-primary-os-part-2-network-attack-defense-0185709>
 
 ```bash
 sudo systemctl disable cups-browsed
@@ -367,7 +367,7 @@ sudo apt-get install <package-name>
 ```
 
 Enable zram and zswap // Not really needed
-    <https://www.youtube.com/watch?v=RGVt16xiERc/>
+    <https://www.youtube.com/watch?v=RGVt16xiERc>
 
 Zswap
 
@@ -380,9 +380,9 @@ nano /etc/default/grub
 "grub_cmdline_linux_default= (add) zswap.enabled=1"
 ```
 
-<https://www.youtube.com/watch?v=XAJoszyzXPs/>
-<https://www.addictivetips.com/ubuntu-linux-tips/enable-zswap-on-linux//>
-<https://ubuntu-mate.community/t/enable-zswap-to-increase-performance/11302/>
+<https://www.youtube.com/watch?v=XAJoszyzXPs>
+<https://www.addictivetips.com/ubuntu-linux-tips/enable-zswap-on-linux/>
+<https://ubuntu-mate.community/t/enable-zswap-to-increase-performance/11302>
 
 Enable TMPFS // writes tmp directly to RAM memory instead of disk
 
@@ -428,7 +428,7 @@ ffplay <mp3_file>
 ```
 
 Terminal Autocomplete // not needed anymore, this is by default on POP
-    <https://unix.stackexchange.com/questions/55203/bash-autocomplete-first-list-files-then-cycle-through-them/55632#55632/>
+    <https://unix.stackexchange.com/questions/55203/bash-autocomplete-first-list-files-then-cycle-through-them/55632#55632>
 
 ```bash
 bind "TAB:complete"; bind "set show-all-if-ambiguous on"
@@ -445,7 +445,7 @@ bind "set menu-complete-display-prefix on"
 ```
 
 Microphone Noise Fix // Not Needed anymore
-    <https://www.youtube.com/watch?v=lTodCeVAfpI/>
+    <https://www.youtube.com/watch?v=lTodCeVAfpI>
 
 ```bash
 sudo nano /etc/pulse/default.pa
@@ -581,10 +581,10 @@ ADDENDUM
 * nautilus-typeahead
     Allows to navigate the files by typing the filenames instead of jumping to search
     This is far quicker cause in time you get in the mechanical habit
-    <https://launchpad.net/~lubomir-brindza/+archive/ubuntu/nautilus-typeahead/>
+    <https://launchpad.net/~lubomir-brindza/+archive/ubuntu/nautilus-typeahead>
 
 * libjpeg -turbo
     Very useful for dealing with large datasets of images, for instance when working with photogrametry. Loads images and their thumbnails very quick.
     I wouldn't recomend unless working with 400 images it's not worth the trouble.
-    <https://www.libjpeg-turbo.org//>
+    <https://www.libjpeg-turbo.org/>
     //Already being used in most distros
