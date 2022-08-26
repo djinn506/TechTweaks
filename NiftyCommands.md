@@ -1,4 +1,4 @@
-a few nifty commands, markdown *coming soon (tm)*
+A few nifty commands, mostly compiled from https://linuxcommandlibrary.com/basic/oneliners
 
 Log your internet download speed
 ```
@@ -324,291 +324,458 @@ tr -cd '1-6' < /dev/urandom |  head -c 1;  echo
 ```
 
 Using a single sudo to run multiple && arguments
-
-$ sudo -s <<< ' apt update -y &&  apt upgrade -y'
+```
+sudo -s <<< ' apt update -y &&  apt upgrade -y'
+```
 
 Find broken symlinks
-$ find . -type l ! -exec  test -e {} \; -print
+```
+find . -type l ! -exec  test -e {} \; -print
+```
 
 Delete the specified line
-$ sed -i 8d ~/.ssh/known_hosts
+```
+sed -i 8d ~/.ssh/known_hosts
+```
 
 Append stdout and stderr to a file, and print stderr to the screen [bash]
-$ somecommand 2>&1 >> logfile |  tee -a logfile
+```
+somecommand 2>&1 >> logfile |  tee -a logfile
+```
 
 List programs with open ports and connections
-$ lsof -i
+```
+lsof -i
+```
 
 Find corrupted jpeg image files
-$ find . -name "*jpg" -exec jpeginfo -c {} \; |  grep -E "WARNING|ERROR"
+```
+find . -name "*jpg" -exec jpeginfo -c {} \; |  grep -E "WARNING|ERROR"
+```
 
 How fast is the connexion to a URL, some stats from curl
-$ URL="http://www.google.com";curl -L --w "$URL
+```
+URL="http://www.google.com";curl -L --w "$URL
 DNS %{time_namelookup}s  conn %{time_connect}s   time %{time_total}s
 Speed %{speed_download}bps Size %{size_download}bytes
 " -o/dev/null -s $URL
-
+```
 
 List Network Tools in Linux
-$ apropos network |more
-
+```
+apropos network |more
+```
 Sort all running processes by their memory & CPU usage
-$ ps aux --sort=%mem,%cpu
+```
+ps aux --sort=%mem,%cpu
+```
 
 Grep by paragraph instead of by line.
-$ grepp() { [ $# -eq 1 ] &&  perl -00ne "print  if /$1/i" ||  perl -00ne "print  if /$1/i" < "$2";}
-
+```
+grepp() { [ $# -eq 1 ] &&  perl -00ne "print  if /$1/i" ||  perl -00ne "print  if /$1/i" < "$2";}
+```
 
 Remote backups with tar over ssh
-$ tar jcpf - [sourceDirs] |ssh user@host "cat > /path/to/backup/backupfile. tar.bz2"
+```
+tar jcpf - [sourceDirs] |ssh user@host "cat > /path/to/backup/backupfile. tar.bz2"
+```
 
 List bash functions defined in .bash_profile or .bashrc
-$ compgen -A function
+```
+compgen -A function
+```
 
 Find all active ip's in a subnet
-$ sudo  arp-scan -I eth0 192.168.1.0/24
+```
+sudo  arp-scan -I eth0 192.168.1.0/24
+```
 
-analyze traffic remotely over ssh w/ wireshark
-$ ssh root@HOST  tcpdump -U -s0 -w - 'not port 22' |  wireshark -k -i -
+Analyze traffic remotely over ssh w/ wireshark
+```
+ssh root@HOST  tcpdump -U -s0 -w - 'not port 22' |  wireshark -k -i -
+```
 
 Resize an image to at least a specific resolution
-$ convert -resize '1024x600^' image.jpg small-image.jpg
+```
+convert -resize '1024x600^' image.jpg small-image.jpg
+```
 
-
-tail a log over ssh
-$ ssh  -t remotebox "tail -f /var/log/remote.log"
+Tail a log over ssh
+```
+ssh  -t remotebox "tail -f /var/log/remote.log"
+```
 
 Replace spaces in filenames with underscores
-$ rename -v 's/ /_/g' *
+```
+rename -v 's/ /_/g' *
+```
 
 Play music from youtube without download
-$ wget -q -O - `youtube-dl -b -g $url`|  ffmpeg -i - -f mp3 -vn -acodec libmp3lame -|  mpg123  -
+```
+wget -q -O - `youtube-dl -b -g $url`|  ffmpeg -i - -f mp3 -vn -acodec libmp3lame -|  mpg123  -
+```
 
 Update twitter via curl (and also set the "from" bit)
-$ curl -u twitter-username -d status="Hello World, Twitter!" -d source="cURL" http://twitter.com/statuses/update.xml
+```
+curl -u twitter-username -d status="Hello World, Twitter!" -d source="cURL" http://twitter.com/statuses/update.xml
+```
 
 Make ISO image of a folder
-$ mkisofs -J -allow-lowercase -R -V "OpenCD8806" -iso-level 4 -o OpenCD.iso ~/OpenCD
+```
+mkisofs -J -allow-lowercase -R -V "OpenCD8806" -iso-level 4 -o OpenCD.iso ~/OpenCD
+```
 
 Timer with sound alarm
-$ sleep 3s &&  espeak "wake up, you bastard" 2>/dev/null
+```
+sleep 3s &&  espeak "wake up, you bastard" 2>/dev/null
+```
 
-monitor memory usage
-$ watch  vmstat -sSM
+Monitor Memory Usage
+```
+watch  vmstat -sSM
+```
 
 Use last argument of last command
-$ file !$
+```
+file !$
+```
 
 Extract audio from a video
-$ ffmpeg -i video.avi -f mp3 audio.mp3
+```
+ffmpeg -i video.avi -f mp3 audio.mp3
+```
 
 Add calendar to desktop wallpaper
-$ convert -font -misc-fixed-*-*-*-*-*-*-*-*-*-*-*-* -fill  black -draw "text 270,260 \" `cal` \"" testpic.jpg newtestpic.jpg
-
+```
+convert -font -misc-fixed-*-*-*-*-*-*-*-*-*-*-*-* -fill  black -draw "text 270,260 \" `cal` \"" testpic.jpg newtestpic.jpg
+```
 
 Send keypresses to an X application
-$ xvkbd -xsendevent -text "Hello world"
+```
+xvkbd -xsendevent -text "Hello world"
+```
 
 restoring some data from a corrupted text file
-$ (  cat badfile.log ;  tac badfile.log |  tac ) > goodfile.log
+```
+(  cat badfile.log ;  tac badfile.log |  tac ) > goodfile.log
+```
 
 Move all images in a directory into a directory hierarchy based on year, month and day based on exif information
-$ exiftool '-Directory<DateTimeOriginal' -d %Y/%m/%d  dir
+```
+exiftool '-Directory<DateTimeOriginal' -d %Y/%m/%d  dir
+```
 
 Show directories in the PATH, one per line
-$ echo $PATH |  tr \: \
+```
+echo $PATH |  tr \: \
+```
 
 Search back through previous commands
-$ Ctrl-R <search-text>
+```
+Ctrl-R <search-text>
+```
 
-generate random password
-$ pwgen -Bs 10 1
+Generate Random Password
+```
+pwgen -Bs 10 1
+```
 
 Copy with progress
-$ rsync --progress file1 file2
+```
+rsync --progress file1 file2
+```
 
 Convert a Nero Image File to ISO
-$ dd bs=1k if=image.nrg of=image.iso skip=300
+```
+dd bs=1k if=image.nrg of=image.iso skip=300
+```
 
-make, or run a script, everytime a file in a directory is modified
-$ while true; do  inotifywait -r -e MODIFY dir/ && make; done;
+Make, or run a script, everytime a file in a directory is modified
+```
+while true; do  inotifywait -r -e MODIFY dir/ && make; done;
+```
 
 Reuse last parameter
-$ !$
+```
+!$
+```
 
 Protect directory from an overzealous rm -rf *
-$ cd <directory>;  touch ./-i
+```
+cd <directory>;  touch ./-i
+```
 
-delete command line last word
-$ ctrl+w
+Delete command line last word
+```
+ctrl+w
+```
 
 Use top to monitor only all processes with the same name fragment 'foo'
-$ top -p $(pgrep -d , foo)
+```
+top -p $(pgrep -d , foo)
+```
 
 Run any GUI program remotely
-$ ssh -fX <user>@<host> <program>
+```
+ssh -fX <user>@<host> <program>
+```
 
 Use all the cores or CPUs when compiling
-$ make -j 4
+```
+make -j 4
+```
 
 grep -v with multiple patterns.
-$ grep 'test' somefile |  grep -vE '(error|critical|warning)'
+```
+grep 'test' somefile |  grep -vE '(error|critical|warning)'
+```
 
 Generate a Random MAC address
-$ openssl rand -hex 6 |  sed 's/\(..\)/\1:/g; s/.$//'
+```
+openssl rand -hex 6 |  sed 's/\(..\)/\1:/g; s/.$//'
+```
 
 Rename all .jpeg and .JPG files to have .jpg extension
-$ rename 's/\.jpe?g$/.jpg/i' *
+```
+rename 's/\.jpe?g$/.jpg/i' *
+```
 
 Download a file and uncompress it while it downloads
-$ wget http://URL/FILE. tar.gz -O - |  tar xfz -
+```
+wget http://URL/FILE. tar.gz -O - |  tar xfz -
+```
 
 Short and elegant way to backup a single file before you change it.
-$ cp httpd.conf{,.bk}
+```
+cp httpd.conf{,.bk}
+```
 
 Find the most recently changed files (recursively)
-$ find . -type f -printf '%TY-%Tm-%Td %TT %p
+```
+find . -type f -printf '%TY-%Tm-%Td %TT %p
 ' |  sort
+```
 
-get all pdf and zips from a website using wget
-$ wget --reject html,htm --accept pdf,zip -rl1 url
+Get all pdf and zips from a website using wget
+```
+wget --reject html,htm --accept pdf,zip -rl1 url
+```
 
 Remove executable bit from all files in the current directory recursively, excluding other directories
-$ chmod -R -x+X *
+```
+chmod -R -x+X *
+```
 
-download and unpack tarball without leaving it sitting on your hard drive
-$ wget -qO - http://example.com/path/to/blah. tar.gz |  tar xzf -
+Download and unpack tarball without leaving it sitting on your hard drive
+```
+wget -qO - http://example.com/path/to/blah. tar.gz |  tar xzf -
+```
 
-disable history for current shell session
-$ unset HISTFILE
+Disable history for current shell session
+```
+unset HISTFILE
+```
 
 Save an HTML page, and covert it to a .pdf file
-$ wget $URL | htmldoc --webpage -f "$URL".pdf - ;  xpdf "$URL".pdf &
+```
+wget $URL | htmldoc --webpage -f "$URL".pdf - ;  xpdf "$URL".pdf &
+```
 
 Cleanup firefox's database.
-$ find ~/.mozilla/firefox/ -type f -name "*.sqlite" -exec  sqlite3 {} VACUUM \;
+```
+find ~/.mozilla/firefox/ -type f -name "*.sqlite" -exec  sqlite3 {} VACUUM \;
+```
 
 Purge configuration files of removed packages on debian based systems
-$ aptitude purge '~c'
-$ sudo apt-get purge '~c'
-
-
-pipewire-audio-client-libraries
+```
+aptitude purge '~c'
+sudo apt-get purge '~c'
+```
 
 Purge configuration files of removed packages on debian based systems
-$ aptitude purge '~c'
+```
+aptitude purge '~c'
+```
 
 Extract audio from Flash video (*.flv) as mp3 file
-$ ffmpeg -i video.flv -vn -ar 44100 -ac 2 -ab 192k -f mp3 audio.mp3
+```
+ffmpeg -i video.flv -vn -ar 44100 -ac 2 -ab 192k -f mp3 audio.mp3
+```
 
 Recursively compare two directories and output their differences on a readable format
-$ diff -urp /originaldirectory /modifieddirectory
+```
+diff -urp /originaldirectory /modifieddirectory
+```
 
 Limit the cpu usage of a process
-$ sudo  cpulimit -p pid -l 50
+```
+sudo  cpulimit -p pid -l 50
+```
 
-convert filenames in current directory to lowercase
-$ rename 'y/A-Z/a-z/' *
+Convert filenames in current directory to lowercase
+```
+rename 'y/A-Z/a-z/' *
+```
 
 Find Duplicate Files (based on size first, then MD5 hash)
-$ fdupes -r .
+```
+fdupes -r .
+```
 
 Create strong, but easy to remember password
-$ read -s pass;  echo $pass |  md5sum |  base64 |  cut -c -16
+```
+read -s pass;  echo $pass |  md5sum |  base64 |  cut -c -16
+```
 
 View the newest xkcd comic. // needs feh and magic bytes
-$ xkcd(){  wget -qO- http://xkcd.com/|tee >(feh $(grep -Po '(?<=")http://imgs[^/]+/comics/[^"]+\.\w{3}'))|grep -Po '(?<=(\w{3})" title=").*(?=" alt)';}
-
+```
+xkcd(){  wget -qO- http://xkcd.com/|tee >(feh $(grep -Po '(?<=")http://imgs[^/]+/comics/[^"]+\.\w{3}'))|grep -Po '(?<=(\w{3})" title=").*(?=" alt)';}
+```
 
 Nicely display permissions in octal format with filename
-$ stat -c '%A %a %n' *
+```
+stat -c '%A %a %n' *
+```
 
 Run a long job and notify me when it's finished
-$ ./my-really-long-job.sh &&  notify-send "Job finished"
-
+```
+./my-really-long-job.sh &&  notify-send "Job finished"
+```
 
 List installed deb packages by size
-$ dpkg-query -Wf '${Installed-Size}\t${Package}
+```
+dpkg-query -Wf '${Installed-Size}\t${Package}
 ' |  sort -n
+```
 
-copy working directory and compress it on-the-fly while showing progress
-$ tar -cf - . |  pv -s $(du -sb . |  awk '{print $1}') |  gzip > out.tgz
+Copy working directory and compress it on-the-fly while showing progress
+```
+tar -cf - . |  pv -s $(du -sb . |  awk '{print $1}') |  gzip > out.tgz
+```
 
 Bind a key with a command
-$ bind -x '"\C-l":ls -l'
+```
+bind -x '"\C-l":ls -l'
+```
 
-notify yourself when a long-running command which has ALREADY STARTED is finished
-$ <ctrl+z> fg; notify_me
+Notify yourself when a long-running command which has ALREADY STARTED is finished
+```
+<ctrl+z> fg; notify_me
+```
 
-find all file larger than 500M
-$ find / -type f -size +500M
+Find all file larger than 500M
+```
+find / -type f -size +500M
+```
 
-easily find megabyte eating files or directories
-$ alias dush="du -sm *|sort -n|tail"
+Easily find megabyte eating files or directories
+```
+alias dush="du -sm *|sort -n|tail"
+```
 
 Exclude .svn, .git and other VCS junk for a pristine tarball
-$ tar --exclude-vcs -cf src. tar src/
+```
+tar --exclude-vcs -cf src. tar src/
+```
 
 Block known dirty hosts from reaching your machine
-$ wget -qO - http://infiltrated.net/blacklisted|awk '!/#|[a-z]/&&/./{print "iptables -A INPUT -s "$1" -j DROP"}'
+```
+wget -qO - http://infiltrated.net/blacklisted|awk '!/#|[a-z]/&&/./{print "iptables -A INPUT -s "$1" -j DROP"}'
+```
 
 Search recursively to find a word or phrase in certain file types, such as C code
-$ find . -name "*.[ch]" -exec  grep -i -H "search pharse" {} \;
+```
+find . -name "*.[ch]" -exec  grep -i -H "search pharse" {} \;
+```
 
 Intercept, monitor and manipulate a TCP connection.
-$ mkfifo /tmp/fifo;  cat /tmp/fifo |  nc -l -p 1234 |  tee -a to.log |  nc machine port |  tee -a from.log > /tmp/fifo
-
-
+```
+mkfifo /tmp/fifo;  cat /tmp/fifo |  nc -l -p 1234 |  tee -a to.log |  nc machine port |  tee -a from.log > /tmp/fifo
+```
 
 Find files that have been modified on your system in the past 60 minutes
-$ sudo  find / -mmin 60 -type f
+```
+sudo  find / -mmin 60 -type f
+```
 
 Show apps that use internet connection at the moment.
-$ lsof -P -i -n |  cut -f 1 -d " "|  uniq |  tail -n +2
+```
+lsof -P -i -n |  cut -f 1 -d " "|  uniq |  tail -n +2
+```
 
 Remind yourself to leave in 15 minutes
-$ leave +15
+```
+leave +15
+```
 
 Compare two directory trees.
-$ diff <(cd dir1 &&  find | sort) <(cd dir2 &&  find | sort)
+```
+diff <(cd dir1 &&  find | sort) <(cd dir2 &&  find | sort)
+```
 
 List only the directories
-$ ls -d */
+```
+ls -d */
+```
 
 Download all images from a site
-$ wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
+```
+wget -r -l1 --no-parent -nH -nd -P/tmp -A".gif,.jpg" http://example.com/images
+```
 
 Create a quick back-up copy of a file
-$ cp file.txt{,.bak}
+```
+cp file.txt{,.bak}
+```
 
 Start COMMAND, and kill it if still running after 5 seconds
-$ timeout 5s COMMAND
+```
+timeout 5s COMMAND
+```
 
 Send pop-up notifications on Gnome
-$ notify-send ["<title>"] "<body>"
+```
+notify-send ["<title>"] "<body>"
+```
 
 Weather
-$ curl wttr.in/tandil
+```
+curl wttr.in/kamchatka
+```
 
 Recursively remove all empty directories
-$ find . -type d -empty -delete
+```
+find . -type d -empty -delete
+```
 
 Monitor progress of a command
-$ pv access.log |  gzip > access.log.gz
+```
+pv access.log |  gzip > access.log.gz
+```
 
 Search for a <pattern> string inside all files in the current directory
-$ grep -RnisI <pattern> *
+```
+grep -RnisI <pattern> *
+```
 
 Get the 10 biggest files/folders for the current direcotry
-$ du -s * |  sort -n |  tail
+```
+du -s * |  sort -n |  tail
+```
 
 Record a screencast and convert it to an mpeg
-$ ffmpeg -f x11grab -r 25 -s 800x600 -i :0.0 /tmp/outputFile.mpg
+```
+ffmpeg -f x11grab -r 25 -s 800x600 -i :0.0 /tmp/outputFile.mpg
+```
 
 Generate Password
-s trings /dev/urandom |  grep -o '[[:alnum:]]' |  head -n 30 |  tr -d '
+```
+strings /dev/urandom |  grep -o '[[:alnum:]]' |  head -n 30 |  tr -d '
 ';  echo
+```
 
 Stream youtube audio
-
+```
 $ i="8uyxVmdaJ-w";mplayer -fs $(curl -s "http://www.youtube.com/get_video_info?&video_id=$i" |  echo -e $(sed 's/%/\\x/g;s/.*\(v[0-9]\.lscache.*\)/http:\/\/\1/g') |  grep -oP '^[^|,]*')
+```
+
