@@ -1,34 +1,58 @@
-# Linux Optimizations Debian
+# Linux Optimizations for Debian based distros
 
-POP OS Current Memory use: under 760M.
-Edit: now memory is around 1G, but that's due to the changes to gnome that's still the lowest I can get it.
-[Since 22.04 it's now 1.15GB.]
+Results: POP! OS Current Memory use: under 760M.
+Edit: now memory is around 1G, but that's due to the changes to gnome that's still the lowest I can get it. [Since 22.04 it's now 1.00GB.]
 
-Disable Animations using gnome-tweaks
+------
+Menu
 
-Set Font Antialiasing to "Standard (grayscale)" // cheaper imo
+[Basic Optimizations](#basic-optimizations)
 
-Install Preloader adaptive readahead daemon
-    Monitors commonly used programs and preloads them in memory to speed up openning apps
-    <https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html>
+
+
+
+
+# Basic Optimizations
+## * Disable Animations using gnome-tweaks
+
+_reason: saves on computation time_
+
+```bash
+sudo apt-get install gnome-tweaks
+```
+
+gnome-tweaks >> disable animations
+
+## * Set Font Antialiasing to "Standard (grayscale)"
+
+_reason: cheaper in my opinion_
+
+## * Install Preloader adaptive readahead daemon
+
+_reason: Monitors commonly used programs and preloads them in memory to speed up openning apps_
+<https://manpages.ubuntu.com/manpages/bionic/man8/preload.8.html>
 
 ```bash
 preload -n 0
 ```
 
-// this code sets preload niceness at normal
+**optional** // this code sets preload niceness at normal (preloader it's normally more agressive)
 
-Uninstall unneeded fonts (?) optional fonts, make sure to edit to your liking before removing.
+## * Uninstall unneeded fonts (?) optional fonts, make sure to edit the following to your liking before removing
+
+_reason: All fonts load on RAM, so you can free up a lot of RAM just disabling them. And you're probably not going to use any other language._
 
 ```bash
 sudo apt-get remove language-pack-ar language-pack-de language-pack-es language-pack-fr language-pack-gnome-ar language-pack-gnome-de language-pack-gnome-fr language-pack-gnome-es language-pack-gnome-it language-pack-gnome-ja language-pack-gnome-pt language-pack-gnome-ru language-pack-gnome-zh-hans language-pack-gnome-zh-hant
 ```
 
-Disable most fonts, using "Font Manager"
-    Pop! OS minimal required fonts: Fira Sans and Roboto Slab
-    Deja Vu Mono for console
+## * Disable most fonts, using "Font Manager"
+
+_reason: all fonts load on RAM, so you can free up a lot of RAM just disabling them_
+
+Pop! OS minimal required fonts: Fira Sans and Roboto Slab, Deja Vu Mono for console
     //Edit: only needed DejaVu Sans and Liberation Mono
-    Manjaro xfce: only needed Noto Sans / Noto Sans Mono
+Manjaro xfce: only needed Noto Sans / Noto Sans Mono
 
 Minimal Tested Working FONTS:
     Liberation Mono (set as console font in gnome-tweaks (Monospace))
@@ -36,37 +60,49 @@ Minimal Tested Working FONTS:
     Fira Sans (Regular POP)
     Roboto Slab (Regular POP, set for everything else in gnome-tweaks)
 
-Edit Swappiness on POP:
+## * Edit Swappiness on POP:
+
+_reason: swappiness handles how often RAM data gets moved over to the swap partition. So less moving results in a more responsive system, as long as you have enough RAM avaliable_
 
 ```bash
 sudo gedit /etc/sysctl.conf // This works on POP OS
 ```
+Then add these lines:
 
 ```bash
 vm.swappiness=10
 vm.vfs_cache_pressure=50
 ```
 
-Edit Boot Options for SSDs:
+## * Edit Boot Options for SSDs:
 
-```bash
-sudo gedit /etc/fstab/
-```
+_reason: SSDs in particular don't need as many flags to be enabled as HDDs, skipping this data makes data easier to access_
 
-add "nodiratime" and "noatime" before "errors=remount-ro"
-ex: "noatime,nodiratime,errors=remount-ro" //skips writting too many timestamps on files.  // This works atm
+From: <https://wiki.debian.org/SSDOptimization#Low-Latency_IO-Scheduler>
+
+1. Edit the fstab file:
+
+    ```bash
+    sudo gedit /etc/fstab/
+    ```
+
+2. Add "nodiratime" and "noatime" before "errors=remount-ro":
+
+    ```bash
+    example: "noatime,nodiratime,errors=remount-ro" //skips writting too many timestamps on files.
+    ```
 
 Other(NOT working for me):
-<https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards/>
 
-```bash
-sudo gedit /etc/fstab
-ssd,compress 0 0
-```
+from: <https://haydenjames.io/increase-performance-lifespan-ssds-sd-cards/>
 
-<https://wiki.debian.org/SSDOptimization#Low-Latency_IO-Scheduler>
+    ```bash
+    sudo gedit /etc/fstab
+    ssd,compress 0 0
+    ```
 
-Enable trim on SSDs
+## * Enable trim on SSDs
+_reason: it expands SSDs lifetime so it's a bit of a no-brainer_
 
 ```bash
 sudo apt-get install util-linux
@@ -76,24 +112,29 @@ sudo systemctl start fstrim.service
 sudo systemctl start fstrim.timer
 ```
 
-Disable Mitigations. From "Speedup Linux" - <https://christitus.com/speedup-linux/>
+## **optional** Disable Mitigations
+
+_reasons: unless you're running a server, chances are you'll never come across viruses abusing your linux system. And you'll get a big performance boost disabling it_
+
+From: "Speedup Linux" - <https://christitus.com/speedup-linux/>
 
 ..."Linux by default is meant for servers and actually decreases the performance for greater security. While this great in business, when using Linux as a desktop it is not ideal unless your are serving other devices on your network with that machine.
 
-Disable Mitigations
-
 This will have a substantial increase in performance just by doing disable many mitigations that happen in multi-threaded systems. The more core count you have the greater the performance gain. Some performances increases can be as large as 30%, but the average increase is about 10%.
 
-Add this to your /etc/default/grub under line GRUB_CMDLINE_LINUX="rhgb quiet":
+1. Add this to your /etc/default/grub under line GRUB_CMDLINE_LINUX="rhgb quiet":
 
 ```bash
 GRUB_CMDLINE_LINUX="rhgb quiet mitigations=off"
 ```
 
-GrubCustomizer kernel parameters: quiet splash mitigations=off
-..."
+2. Install Grub Customizer
 
-Purge Libreoffice
+3. Run Grub Customizer and set kernel parameters: quiet splash mitigations=off
+
+## **optional** Purge Libreoffice
+
+_reason: If you don't use docs, excel sheets, etc.. you don't need this program, and by removing it you'll get rid of it's fonts_
 
 ```bash
 sudo apt-get remove --purge libreoffice*
@@ -101,93 +142,144 @@ sudo apt-get clean
 sudo apt-get autoremove
 ```
 
-Custom Profile and Aliases
+# Custom Profile and Aliases
+
+Aliases are custom commands that can be set per user that allows short scripts to be run on the terminal when you type in the corresponding aliases in the terminal.
+
+Depending on your distro you can add aliases to "~/.profile" or "~/.bashrc_aliases"
+
+1. Create the file ".bash_aliases"
+
+    ```bash
+    touch ~/.bash_aliases >> .bash_aliases
+    ```
+2. Edit it's contents using gedit
+
+    ```bash
+    gedit ~/.profile
+    ```
+
+## Disable Touch on wacom tablets
+
+_reason: I don't use the touch functions on my wacom and it bothers me_
 
 ```bash
-alias >> ~/.profile
+alias notouch= xsetwacom set "$( xsetwacom --list | awk '/TOUCH/ {print $8}' )" touch off
 ```
 
-Disables Touch on wacom tablets
+(gets wacom touch id and sets it to off)
 
-```bash
-xsetwacom set `xsetwacom --list | awk '/TOUCH/ {print $8}'` touch off
-```
+## Kill gracefully "touchegg" service on startup
 
-Kill gracefully touchegg service on startup (touch only, doesn't affect wacom stylus)
+_reason: I don't use touch screens on my system, it doesn't affect wacom stylus)_
+
+Add to "~/.bashrc" so it runs whenever you open the terminal
 
 ```bash
 pkill -15 touchegg
 ```
 
-```bash
-touch ~/.bash_aliases >> .bash_aliases
-```
+## Open VM in virt-viewer
+
+_reason: Running virt-viewer allows to share folders between VMs, while using the "spice guest additions"_
+
 
 ```bash
 alias runwin='virt-viewer --connect=qemu:///system --domain-name win10vm'
 ```
 
+## Update and Upgrade
+
+_reason: runs update, upgrade and also updates flatpaks_
+
 ```bash
 alias popupdate='sudo apt-get update && sudo apt-get upgrade; flatpak update;'
 ```
+
+## Autoremove and Autoclean
+
+_reason: runs autoremove and autoclean, removes old installation files_
 
 ```bash
 alias popclean='sudo apt-get autoremove && sudo apt-get autoclean'
 ```
 
-```bash
-alias mountMassive='sudo mkdir -p /media/j/Massive && sudo mount /dev/sdc2 /media/j/Massive;'
-```
+## Mount Drive
+
+_reason: mounts <DRIVENAME> in /media/j/<DRIVENAME>_
 
 ```bash
-alias umountMassive='sudo umount /media/j/Massive/ && sudo rm -d /media/j/Massive'
+alias mountDrive='sudo mkdir -p /media/j/<DRIVENAME>/ && sudo mount /dev/sdc2 /media/j/<DRIVENAME>/;'
 ```
+## Unmount Drive
+
+_reason: unmounts <DRIVENAME>_
 
 ```bash
-alias blendersync='rsync -arvP ~/Documents/blender/ /media/j/Massive/blender/'
+alias umountDrive='sudo umount /media/j/<DRIVENAME>/ && sudo rm -d /media/j/<DRIVENAME>'
 ```
+## Sync Folders
+
+_reason: mirrors data from /Docs/blender to /media/j/<DRIVENAME>/blender_
+
+```bash
+alias blendersync='rsync -arvP ~/Documents/blender/ /media/j/<DRIVENAME>/blender/'
+```
+## Pomodoro
+
+_reason: runs pomodoro clock_
 
 ```bash
 alias pomodoro='echo "Pomodoro START"; sleep 1500; echo "REST!"; sleep 300; echo "Rest OVER";'
 ```
 
-Disable Evolution: completely unneded in Ubuntu.. but the system uses it for notifications
-In Stacer, Add Startapp with:
+## Disable Evolution
+
+_reason: if you don't use it as a mail application, then you dont need it in Ubuntu.. but the system uses it for notifications_
+
+You can set it in Stacer >> Add Startapp with:
 
 ```bash
 pkill -15 evolution
 ```
 
-Force Update Aliases
-
+## Update Aliases
+_if you want to update aliases while in the terminal_
 ```bash
 sources ~/.bashrc
 ```
 
+or
+
 ```bash
-. ~/.bashrc // updates bash sources
+. ~/.bashrc
 ```
 
-Disable PopShop // takes some resources
-Startup Applications > Disable Pop Shop (Pop!_OS Release Check) // S76 priority balance relies on PopShop as far as I know in order to work properly
+## Disable PopShop 
+_reason: it takes up some RAM, so it's always open in the background_
 
+1. Startup Applications > Disable Pop Shop (Pop!_OS Release Check)
+
+2. Add these lines in your ~/.bashrc
 ```bash
 pkill -15 io.element
 ```
 
-Disable Touchegg:  // used for fingertouch and gestures
+## Disable Touchegg
+_reason: used for fingertouch and gestures on touch screens, but I don't use touch screens on my system_
 
 ```bash
 cd /etc/xdg/autostart/
 mv touchegg.desktop touchegg.desktop.hold
 ```
+This code renames the touchegg.desktop file so it can't be lauched anymore, and you can always revert it by renaming it back.
+# Security
 
-Security
+## * Disable SSH
 
-Disable SSH
-    To do this, head to “/etc/ssh/sshd_config” to access the file responsible for configuring SSH. Then open it with a text editor and remove root login by entering the “#PermitRootLogin no” command into the console.
+To do this, head to “/etc/ssh/sshd_config” to access the file responsible for configuring SSH. Then open it with a text editor and remove root login by entering the “#PermitRootLogin no” command into the console.
 
-Wired Settings:
+## * Wired Settings:
     Set Clone Adress to AA:BB:CC:DD:EE:DD
     Set IPV4 to Automatic DHCP and set DNS
     Set IPV6 to Automatic DHCP ONLY and set DNS
@@ -205,17 +297,20 @@ IPV6
 2001:4860:4860::8888,2001:4860:4860::8844
 ```
 
-Disable SSH service
+## * Disable SSH service
 
 ```bash
 sudo systemctl stop ssh
 sudo systemctl disable ssh
 ```
 
-Disable backports updates (In the updating options)
-Disable multiverse updates (In the updating options)
+## * Disable backports updates (In the updating options)
 
-Install Apparmor // Already installed in PopOS
+## * Disable multiverse updates (In the updating options)
+
+## * Install Apparmor
+(Already installed in PopOS)
+_reason: sandboxes applications so data doesn't leak_
 
 ```bash
 sudo apt-get install apparmor-profiles apparmor-utils
@@ -224,9 +319,15 @@ sudo systemctl enable apparmor.service
 sudo systemctl start apparmor.service
 ```
 
+You can also check apparmor status:
+
+```bash
+sudo systemctl status apparmor.service
+```
+
 <https://ubuntu.com/server/docs/security-apparmor>
 
-Firewall - Hardening
+## * Firewall - Hardening
 
 <https://askubuntu.com/questions/339507/how-can-i-use-firefox-with-ubuntu-firewall-gufw>
 
@@ -263,7 +364,7 @@ sudo ufw allow out to 207.46.0.0/16 port
 sudo ufw allow out to 65.52.0.0/14 port 587 proto tcp
 ```
 
-Firewall Adv
+## * Firewall Advanced
 
 <https://www.youtube.com/watch?v=ZhMw53Ud2tY>
 <https://www.youtube.com/watch?v=2IosbILbMWQ>
@@ -278,62 +379,105 @@ sudo ufw default deny outgoing
 ifconfig -a
 ```
 
-Useful Linux Commands
+# * Useful Linux Commands
 
+Update and Upgrade to newer Distro version
 ```bash
 sudo apt-get update
 sudo apt-get dist-upgrade
 ```
 
-ifconfig // network configurations
+Display Network Connections
+```bash
+ifconfig
+```
 
-df -ah // filesystems
+Check Freespace
+```bash
+df -ah
+```
 
-service **service name** status // service status old
+Old version to check service status
+```bash
+service ServiceName status
+```
 
-systemctl status **service name** // service status new
+New version to check service status
+```bash
+systemctl status ServiceName
+```
 
+Display files and directories in current
+```bash
 ls
+```
 
-du -sh **foldername** // size of folder
+Display Size of Directory
+```bash
+du -sh FolderName
+```
 
-netstat -tulpn // network connections
+Display Network Connections
+```bash
+netstat -tulpn
+```
 
-ps aux | grep **service name** // processes running
-top // same
+Display Running Processes
+```bash
+ps aux | grep ProgramName
+```
+or
+```bash
+top
+```
 
-ls /mnt // lists whats on /mnt folder
-mount /dev/sda2 /mnt // mounts volumes
-mount // lists mounted volumes
+Mount volumes
+```bash
+mount /dev/sda2 /mnt
+```
 
-pwd // print working directory // path
+Display Mounted Volumes
+```bash
+mount
+```
 
-dpkg --list // lists all installed packages
+Display Working Directory / path
+```bash
+pwd
+```
 
-uname -r // outputs kernel version
+Display all installed packages
+```bash
+dpkg --list
+```
+
+Display Kernel Version
+```bash
+uname -r
+```
 
 Remove Old Kernels
-
 ```bash
 dpkg --list | egrep -i --color 'linux-image|linux-headers|linux-modules' | awk '{ print $2 }'
 ```
 
 Block Analytics
 
-```bash
-gedit /etc/hosts
-```
+1. Edit Hosts file
+    ```bash
+    gedit /etc/hosts
+    ```
+2. Add these lines:
+    ```bash
+    **Google Analytics**
+    0.0.0.0 www.google-analytics.com
+    0.0.0.0 172.217.7.14
+    **WACOM Analytics**
+    0.0.0.0 link.wacom.com/analytics/analytics.xml
+    0.0.0.0 link.wacom.com
+    ```
 
-```bash
-**Google Analytics**
-0.0.0.0 www.google-analytics.com
-0.0.0.0 172.217.7.14
-**WACOM Analytics**
-0.0.0.0 link.wacom.com/analytics/analytics.xml
-0.0.0.0 link.wacom.com
-```
-
-* FIX BROKEN PACKAGES on Ubuntu Distros
+* Fix Broken Packages on Ubuntu Distros
 
 ```bash
 apt-get remove apt-utils
@@ -366,7 +510,8 @@ sudo apt-get install -f
 sudo apt-get install **package-name**
 ```
 
-Enable zram and zswap // Not really needed
+## Enable zram and zswap
+Not really needed
     <https://www.youtube.com/watch?v=RGVt16xiERc>
 
 Zswap
@@ -384,7 +529,8 @@ nano /etc/default/grub
 <https://www.addictivetips.com/ubuntu-linux-tips/enable-zswap-on-linux>
 <https://ubuntu-mate.community/t/enable-zswap-to-increase-performance/11302>
 
-Enable TMPFS // writes tmp directly to RAM memory instead of disk
+## Enable TMPFS 
+Writes tmp directly to RAM memory instead of disk
 
 ```bash
 sudo cp -v /usr/share/systemd/tmp.mount /etc/systemd/system/ 
@@ -392,10 +538,8 @@ sudo systemctl enable tmp.mount
 **restart machine**
 sudo systemctl status tmp.mount
 ```
-
-psd - Sets browser profiles to run on ram instead
-
-Profile Sync Daemon, also needs to Enable OverlayFS.
+## Install Profile Sync Daemon
+psd - Sets browser profiles to run on ram instead, also needs to Enable OverlayFS.
 
 ```bash
 sudo apt-get install psd
@@ -403,14 +547,14 @@ sudo systemctl enable psd
 sudo systemctl start psd
 ```
 
-PulseAudio
+## PulseAudio
 
 ```bash
 alsamixer // front mic boost
 sudo alsactl store // stores alsamixer configuration?
 ```
 
-youtube-dl
+## youtube-dl
 
 ```bash
 -x --audio-format mp3
@@ -420,7 +564,7 @@ youtube-dl -x --audio-format mp3 --external-downloader-args '-n 10' --external-d
 youtube-dl --external-downloader-args '-n 10' --external-downloader /usr/bin/axel https://www.youtube.com/watch?v=abjRQeYmHCo
 ```
 
-Download reddit hot files: // requires jq and curl
+Download reddit "hot" files: // requires jq and curl
 
 ```bash
 curl -sS -H "User-Agent: TikTok Bot 1.0" https://www.reddit.com/r/REDDIT/hot.json?limit=10 | jq -r '.data.children[].data.url_overridden_by_dest' | youtube-dl -qiw --no-warnings -a -
@@ -435,7 +579,7 @@ bind "TAB:complete"; bind "set show-all-if-ambiguous on"
 bind "TAB:complete"; bind "set show-all-if-ambiguous off"
 ```
 
-// make tab cycle through commands after listing
+// make tab cycle through commands after listing // not really needed
 
 ```bash
 bind '"\t":menu-complete'
@@ -463,9 +607,9 @@ pactl load-module module-echo-cancel source_name=noechosource sink_name=noechosi
 pactl unload-module module-echo-cancel
 ```
 
-Latest working is just using "PulseEffects" and setting the NoiseFilter, Gate and Compressor on Input(Mic) // but lowers recording quality
+Latest working is just using "PulseEffects" and setting the NoiseFilter, Gate and Compressor on Input(Mic) // but lowers recording quality. The same package for wayland is called "Easy Effects"
 
-WEBP
+## WEBP
 
 ```bash
 sudo apt install webp -y
@@ -485,72 +629,75 @@ Converts ANY webp to jpg
 for x in ls *.webp; do  ffmpeg -i $x ${x%.webp}.jpg;
 ```
 
-Services Enabled on Stacer:
-    accounts-daemon
-    acpid
-    apparmor
-    avahi-daemon
-    blk-availability
-    bluetooth (gotta disable it)
-    brltty (gotta disable it)
-    com.system76.Scheduler
-    console-setup
-    cron
-    cups-browsed (gotta disable it) // Printer on network
-    cups // Local Printer
-    dmesg
-    e2scrub_reap
-    finalrd
-    irqbalance
-    keyboard-setup
-    libvirt-guests
-    libbirtd
-    lm-sensors
-    lvm2-monitor
-    ModemManager
-    network-dispatcher
-    networking
-    NetworkManager-dispatcher
-    NetworkManager-wait-online
-    NetworkManager
-    nvidia-persistenced
-    openvpn //disable it
-    pop-upgrade //disable it
-    qemu-kvm
-    resolvconf
-    rsync
-    rsynclog
-    rtkit-daemon
-    secureboot-db
-    setvtrgb
-    speech-dispatcherd // disable it
-    switcheroo-control
-    systemd-networkd
-    systemd-pstore
-    systemd-resolved
-    systemd-sysext
-    touchegg //disable it
-    ua-reboot-cmds
-    udisks2
-    ufw
-    upower
-    wpa_supplicant
+**optional** Services Enabled on Stacer:
+- accounts-daemon
+- acpid
+- apparmor
+- avahi-daemon
+- blk-availability
+- bluetooth (gotta disable it)
+- brltty (gotta disable it)
+- com.system76.Scheduler
+- console-setup
+- cron
+- cups-browsed (gotta disable it) // Printer on network
+- cups // Local Printer
+- dmesg
+- e2scrub_reap
+- finalrd
+- irqbalance
+- keyboard-setup
+- libvirt-guests
+- libbirtd
+- lm-sensors
+- lvm2-monitor
+- ModemManager
+- network-dispatcher
+- networking
+- NetworkManager-dispatcher
+- NetworkManager-wait-online
+- NetworkManager
+- nvidia-persistenced
+- openvpn //disable it
+- pop-upgrade //disable it
+- qemu-kvm
+- resolvconf
+- rsync
+- rsynclog
+- rtkit-daemon
+- secureboot-db
+- setvtrgb
+- speech-dispatcherd // disable it
+- switcheroo-control
+- systemd-networkd
+- systemd-pstore
+- systemd-resolved
+- systemd-sysext
+- touchegg //disable it
+- ua-reboot-cmds
+- udisks2
+- ufw
+- upower
+- wpa_supplicant
 
-Disable services that cannot be disabled by stacer: //must be done with systemctl
-    touchegg
-    bluetooth
-    brltty
-    pop-upgrade
-    openvpn
+**optional** Disable services that cannot be disabled by stacer
 
-Disable Touchegg:
+//must be done with systemctl
+
+- touchegg
+- bluetooth
+- brltty
+- pop-upgrade
+- openvpn
+
+## Disable Touchegg:
 
 ```bash
 cd /etc/xdg/autostart/
 mv touchegg.desktop touchegg.desktop.hold
 ```
 
-Disable Bluetooth:
+## Disable Bluetooth:
 
 ```bash
 nano /etc/bluetooth/main.conf 
@@ -558,19 +705,21 @@ set AutoEnable=false
 systemctl disable bluetooth
 ```
 
-Disable Braille Device Support  // make sure you don't use it
+## Disable Braille Device Support
+// make sure you don't use it
 
 ```bash
 sytemctl disable brltty
 ```
 
-Disable OpenVPN
+## Disable OpenVPN
 
 ```bash
 systemctl disable openvpn
 ```
 
-Remove Evolution ? // this removes default mail client (it's also used for system notifications)
+## Remove Evolution 
+This removes default mail client (it's also used for system notifications)
 
 ```bash
 sudo apt-get remove evolution
